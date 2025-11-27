@@ -1,0 +1,6 @@
+parameters:
+  providers_config:
+    - name: "Provider A"
+      url: "https://webhook.site/9f52f3b9-4a3c-4ef5-b429-0c02275165e4"
+    - name: "Provider B"
+      url: "https://webhook.site/d34c4c5c-b9da-45f5-886d-03999fc7bc82"

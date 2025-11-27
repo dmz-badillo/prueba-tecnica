@@ -4,7 +4,12 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-
+    providers_config:
+        - name: "Provider A"
+          url: "https://webhook.site/9f52f3b9-4a3c-4ef5-b429-0c02275165e4"
+        - name: "Provider B"
+          url: "https://webhook.site/d34c4c5c-b9da-45f5-886d-03999fc7bc82"
+          
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -22,3 +27,8 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\QuotesService:
+        arguments:
+            $providersConfig: '%providers_config%'
+
