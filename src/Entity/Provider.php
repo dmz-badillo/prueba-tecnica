@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\ProviderRepository;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
+use DateTimeImmutable;
+
 /**
  * Class Provider
  *
@@ -19,6 +22,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 
 #[ORM\Entity(repositoryClass: ProviderRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Provider
 {
     #[ORM\Id]
@@ -33,7 +37,25 @@ class Provider
     private ?string $url = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $status = null;
+    private ?string $status = null; 
+    
+    #[ORM\Column(type: 'datetime_immutable')]
+    private ?DateTimeImmutable $created_at = null;
+
+    #[ORM\Column(type: 'datetime')]
+    private ?DateTime $updated_at = null;
+
+    public function __construct()
+    {
+        $this->created_at = new DateTimeImmutable();
+        $this->updated_at = new DateTime();
+    }
+
+    #[ORM\PreUpdate]
+    public function onPreUpdate(): void
+    {
+        $this->updated_at = new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -71,5 +93,15 @@ class Provider
     {
         $this->status = $status;
         return $this;
+    }
+
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function getUpdatedAt(): ?DateTime
+    {
+        return $this->updated_at;
     }
 }
